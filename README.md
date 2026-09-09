@@ -27,7 +27,7 @@ Projeto Laravel com autenticação (Laravel Breeze) e banco de dados PostgreSQL.
    DB_CONNECTION=pgsql
    DB_HOST=127.0.0.1
    DB_PORT=5432
-   DB_DATABASE=postgres
+   DB_DATABASE=projeto_laravel
    DB_USERNAME=postgres
    DB_PASSWORD=1234
    ```
