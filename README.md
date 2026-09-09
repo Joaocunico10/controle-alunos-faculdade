@@ -1,5 +1,58 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
+## Controle de Alunos - Faculdade
+
+Projeto Laravel com autenticação (Laravel Breeze) e banco de dados PostgreSQL.
+
+### Pré-requisitos
+
+- PHP 8.3+
+- Composer
+- Node.js e npm (para compilar os assets do front-end)
+- PostgreSQL em execução (local ou em container)
+
+### Configuração inicial
+
+1. Clone o repositório e instale as dependências PHP:
+   ```bash
+   composer install
+   ```
+2. Copie o arquivo de ambiente e gere a chave da aplicação:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+3. Configure a conexão com o PostgreSQL no `.env` (ajuste conforme o seu ambiente):
+   ```
+   DB_CONNECTION=pgsql
+   DB_HOST=127.0.0.1
+   DB_PORT=5432
+   DB_DATABASE=postgres
+   DB_USERNAME=postgres
+   DB_PASSWORD=1234
+   ```
+4. Rode as migrations:
+   ```bash
+   php artisan migrate
+   ```
+5. Instale as dependências JavaScript e compile os assets (necessário para as telas de login/registro do Breeze funcionarem):
+   ```bash
+   npm install
+   npm run build
+   ```
+   Durante o desenvolvimento, use `npm run dev` em um terminal separado.
+6. Suba o servidor local:
+   ```bash
+   php artisan serve
+   ```
+
+### Organização das branches
+
+- `develop`: branch base do projeto, contém o setup comum (Laravel + PostgreSQL + Breeze).
+- Cada integrante deve criar sua própria branch a partir da `develop` para desenvolver seu módulo (ex.: `develop-joao`, `develop-leo`, `develop-luis`).
+- Ao finalizar um módulo, abra um Pull Request de volta para `develop`.
+
+
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
