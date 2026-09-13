@@ -11,6 +11,6 @@ class UserManagementController extends Controller
     {
         $usuarios = User::all();
 
-        return response()->json($usuarios);
+        return view('admin.usuarios', compact('usuarios'));
     }
 }
