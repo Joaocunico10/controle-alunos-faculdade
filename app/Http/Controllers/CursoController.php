@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCursoRequest;
+use App\Http\Requests\UpdateCursoRequest;
 use App\Models\Curso;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CursoController extends Controller
@@ -14,6 +15,8 @@ class CursoController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('viewAny', Curso::class);
+
         $cursos = Curso::withCount('alunos')->orderBy('nome')->paginate(10);
 
         return view('cursos.index', compact('cursos'));
@@ -24,17 +27,19 @@ class CursoController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('create', Curso::class);
+
         return view('cursos.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreCursoRequest $request): RedirectResponse
     {
-        $validated = $request->validate($this->rules());
+        $this->authorize('create', Curso::class);
 
-        Curso::create($validated);
+        Curso::create($request->validated());
 
         return redirect()->route('cursos.index')->with('status', 'curso-criado');
     }
@@ -44,6 +49,8 @@ class CursoController extends Controller
      */
     public function show(Curso $curso): View
     {
+        $this->authorize('view', $curso);
+
         $curso->load('alunos');
 
         return view('cursos.show', compact('curso'));
@@ -54,17 +61,19 @@ class CursoController extends Controller
      */
     public function edit(Curso $curso): View
     {
+        $this->authorize('update', $curso);
+
         return view('cursos.edit', compact('curso'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Curso $curso): RedirectResponse
+    public function update(UpdateCursoRequest $request, Curso $curso): RedirectResponse
     {
-        $validated = $request->validate($this->rules($curso->id));
+        $this->authorize('update', $curso);
 
-        $curso->update($validated);
+        $curso->update($request->validated());
 
         return redirect()->route('cursos.index')->with('status', 'curso-atualizado');
     }
@@ -74,20 +83,10 @@ class CursoController extends Controller
      */
     public function destroy(Curso $curso): RedirectResponse
     {
+        $this->authorize('delete', $curso);
+
         $curso->delete();
 
         return redirect()->route('cursos.index')->with('status', 'curso-removido');
-    }
-
-    /**
-     * Regras de validação para criação e atualização de cursos.
-     */
-    private function rules(?int $cursoId = null): array
-    {
-        return [
-            'nome' => ['required', 'string', 'max:255'],
-            'codigo' => ['required', 'string', 'max:50', 'unique:cursos,codigo,' . $cursoId],
-            'duracao_semestres' => ['required', 'integer', 'min:1', 'max:20'],
-        ];
     }
 }
