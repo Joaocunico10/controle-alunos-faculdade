@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAlunoRequest;
+use App\Http\Requests\UpdateAlunoRequest;
 use App\Models\Aluno;
 use App\Models\Curso;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class AlunoController extends Controller
@@ -33,11 +34,9 @@ class AlunoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreAlunoRequest $request): RedirectResponse
     {
-        $validated = $request->validate($this->rules());
-
-        Aluno::create($validated);
+        Aluno::create($request->validated());
 
         return redirect()->route('alunos.index')->with('status', 'aluno-criado');
     }
@@ -65,11 +64,9 @@ class AlunoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Aluno $aluno): RedirectResponse
+    public function update(UpdateAlunoRequest $request, Aluno $aluno): RedirectResponse
     {
-        $validated = $request->validate($this->rules($aluno->id));
-
-        $aluno->update($validated);
+        $aluno->update($request->validated());
 
         return redirect()->route('alunos.index')->with('status', 'aluno-atualizado');
     }
@@ -82,20 +79,5 @@ class AlunoController extends Controller
         $aluno->delete();
 
         return redirect()->route('alunos.index')->with('status', 'aluno-removido');
-    }
-
-    /**
-     * Regras de validação para criação e atualização de alunos.
-     */
-    private function rules(?int $alunoId = null): array
-    {
-        return [
-            'nome' => ['required', 'string', 'max:255'],
-            'cpf' => ['required', 'string', 'max:14', 'unique:alunos,cpf,' . $alunoId],
-            'email' => ['required', 'email', 'max:255', 'unique:alunos,email,' . $alunoId],
-            'matricula' => ['required', 'string', 'max:50', 'unique:alunos,matricula,' . $alunoId],
-            'data_nascimento' => ['required', 'date', 'before:today'],
-            'curso_id' => ['required', 'exists:cursos,id'],
-        ];
     }
 }
