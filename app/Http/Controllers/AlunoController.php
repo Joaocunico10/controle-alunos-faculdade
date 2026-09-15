@@ -16,6 +16,8 @@ class AlunoController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('viewAny', Aluno::class);
+
         $alunos = Aluno::with('curso')->orderBy('nome')->paginate(10);
 
         return view('alunos.index', compact('alunos'));
@@ -26,6 +28,8 @@ class AlunoController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('create', Aluno::class);
+
         $cursos = Curso::orderBy('nome')->get();
 
         return view('alunos.create', compact('cursos'));
@@ -36,6 +40,8 @@ class AlunoController extends Controller
      */
     public function store(StoreAlunoRequest $request): RedirectResponse
     {
+        $this->authorize('create', Aluno::class);
+
         Aluno::create($request->validated());
 
         return redirect()->route('alunos.index')->with('status', 'aluno-criado');
@@ -46,6 +52,8 @@ class AlunoController extends Controller
      */
     public function show(Aluno $aluno): View
     {
+        $this->authorize('view', $aluno);
+
         $aluno->load('curso');
 
         return view('alunos.show', compact('aluno'));
@@ -56,6 +64,8 @@ class AlunoController extends Controller
      */
     public function edit(Aluno $aluno): View
     {
+        $this->authorize('update', $aluno);
+
         $cursos = Curso::orderBy('nome')->get();
 
         return view('alunos.edit', compact('aluno', 'cursos'));
@@ -66,6 +76,8 @@ class AlunoController extends Controller
      */
     public function update(UpdateAlunoRequest $request, Aluno $aluno): RedirectResponse
     {
+        $this->authorize('update', $aluno);
+
         $aluno->update($request->validated());
 
         return redirect()->route('alunos.index')->with('status', 'aluno-atualizado');
@@ -76,6 +88,8 @@ class AlunoController extends Controller
      */
     public function destroy(Aluno $aluno): RedirectResponse
     {
+        $this->authorize('delete', $aluno);
+
         $aluno->delete();
 
         return redirect()->route('alunos.index')->with('status', 'aluno-removido');
