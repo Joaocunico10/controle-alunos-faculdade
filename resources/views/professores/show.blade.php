@@ -8,20 +8,22 @@
 <body>
 
     <h1>Dados do Professor</h1>
-
-    <p><strong>ID:</strong> {{ $professor->id }}</p>
-
-    <p><strong>Nome:</strong> {{ $professor->nome }}</p>
-
-    <p><strong>E-mail:</strong> {{ $professor->email }}</p>
-
-    <p><strong>Titulação:</strong> {{ $professor->titulacao }}</p>
+        <p><strong>ID:</strong> {{ $professor->id }}</p>
+        <p><strong>Nome:</strong> {{ $professor->nome }}</p>
+        <p><strong>E-mail:</strong> {{ $professor->email }}</p>
+        <p><strong>Titulação:</strong> {{ $professor->titulacao }}</p>
 
     <br>
 
-    <a href="{{ route('professores.edit', $professor) }}">
-        Editar
-    </a>
+<a href="{{ route('professores.disciplinas', $professor) }}">
+    Ver disciplinas
+</a>
+
+<br><br>
+
+<a href="{{ route('professores.edit', $professor) }}">
+    Editar
+</a>
 
     <br><br>
 
