@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('disciplinas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('professor_id')
+                ->constrained('professors')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
         });
     }
 

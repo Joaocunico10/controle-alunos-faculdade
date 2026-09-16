@@ -14,21 +14,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        User::updateOrCreate([
             'name' => 'Administrador',
             'email' => 'admin@faculdade.com',
             'password' => '12345678',
             'role' => UserRole::ADMIN,
         ]);
 
-            User::create([
+            User::updateOrCreate([
         'name' => 'Coordenador',
         'email' => 'coordenador@faculdade.com',
         'password' => '12345678',
         'role' => UserRole::COORDENADOR,
     ]);
 
-    User::create([
+    User::updateOrCreate([
         'name' => 'Professor',
         'email' => 'professor@faculdade.com',
         'password' => '12345678',
