@@ -5,6 +5,8 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\ProfessorController;
+use App\Http\Controllers\DisciplinaController;
 
 Route::get('/usuarios', [UserManagementController::class, 'index'])
     ->middleware(['auth', 'role:admin']);
@@ -25,5 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('cursos', CursoController::class);
     Route::resource('alunos', AlunoController::class);
 });
+
+Route::resource('professores', ProfessorController::class);
+Route::resource('disciplinas', DisciplinaController::class);
 
 require __DIR__.'/auth.php';
