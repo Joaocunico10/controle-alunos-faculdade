@@ -4,6 +4,10 @@ use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserManagementController;
+
+Route::get('/usuarios', [UserManagementController::class, 'index'])
+    ->middleware(['auth', 'role:admin']);
 
 Route::get('/', function () {
     return view('welcome');

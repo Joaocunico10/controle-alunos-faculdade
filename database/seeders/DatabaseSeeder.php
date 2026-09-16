@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
             CursoSeeder::class,
             AlunoSeeder::class,
         ]);
+            $this->call(UserSeeder::class);
     }
 }
