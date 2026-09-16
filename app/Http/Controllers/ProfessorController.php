@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Professor;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreProfessorRequest;
+use App\Http\Requests\UpdateProfessorRequest;
 
 class ProfessorController extends Controller
 {
-
     public function index()
     {
         $professores = Professor::all();
@@ -20,13 +20,9 @@ class ProfessorController extends Controller
         return view('professores.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreProfessorRequest $request)
     {
-        Professor::create([
-            'nome' => $request->nome,
-            'email' => $request->email,
-            'titulacao' => $request->titulacao,
-        ]);
+        Professor::create($request->validated());
 
         return redirect()
             ->route('professores.index')
@@ -40,7 +36,6 @@ class ProfessorController extends Controller
         ]);
     }
 
-
     public function edit(Professor $professore)
     {
         return view('professores.edit', [
@@ -48,19 +43,14 @@ class ProfessorController extends Controller
         ]);
     }
 
-    public function update(Request $request, Professor $professore)
+    public function update(UpdateProfessorRequest $request, Professor $professore)
     {
-        $professore->update([
-            'nome' => $request->nome,
-            'email' => $request->email,
-            'titulacao' => $request->titulacao,
-        ]);
+        $professore->update($request->validated());
 
         return redirect()
             ->route('professores.index')
             ->with('success', 'Professor atualizado com sucesso!');
     }
-
 
     public function destroy(Professor $professore)
     {

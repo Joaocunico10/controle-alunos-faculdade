@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Disciplina;
 use App\Models\Professor;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreDisciplinaRequest;
+use App\Http\Requests\UpdateDisciplinaRequest;
 
 class DisciplinaController extends Controller
 {
@@ -22,14 +23,9 @@ class DisciplinaController extends Controller
         return view('disciplinas.create', compact('professores'));
     }
 
-    public function store(Request $request)
+    public function store(StoreDisciplinaRequest $request)
     {
-        Disciplina::create([
-            'nome' => $request->nome,
-            'codigo' => $request->codigo,
-            'carga_horaria' => $request->carga_horaria,
-            'professor_id' => $request->professor_id,
-        ]);
+        Disciplina::create($request->validated());
 
         return redirect()
             ->route('disciplinas.index')
@@ -50,14 +46,9 @@ class DisciplinaController extends Controller
         return view('disciplinas.edit', compact('disciplina', 'professores'));
     }
 
-    public function update(Request $request, Disciplina $disciplina)
+    public function update(UpdateDisciplinaRequest $request, Disciplina $disciplina)
     {
-        $disciplina->update([
-            'nome' => $request->nome,
-            'codigo' => $request->codigo,
-            'carga_horaria' => $request->carga_horaria,
-            'professor_id' => $request->professor_id,
-        ]);
+        $disciplina->update($request->validated());
 
         return redirect()
             ->route('disciplinas.index')

@@ -9,6 +9,16 @@
 
     <h1>Editar Professor</h1>
 
+    @if($errors->any())
+        <div>
+            <ul>
+                @foreach($errors->all() as $erro)
+                    <li>{{ $erro }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('professores.update', $professor) }}" method="POST">
         @csrf
         @method('PUT')
@@ -19,7 +29,7 @@
                 type="text"
                 name="nome"
                 id="nome"
-                value="{{ $professor->nome }}"
+                value="{{ old('nome', $professor->nome) }}"
             >
         </div>
 
@@ -31,7 +41,7 @@
                 type="email"
                 name="email"
                 id="email"
-                value="{{ $professor->email }}"
+                value="{{ old('email', $professor->email) }}"
             >
         </div>
 
@@ -43,22 +53,18 @@
                 type="text"
                 name="titulacao"
                 id="titulacao"
-                value="{{ $professor->titulacao }}"
+                value="{{ old('titulacao', $professor->titulacao) }}"
             >
         </div>
 
         <br>
 
-        <button type="submit">
-            Atualizar
-        </button>
+        <button type="submit">Atualizar</button>
     </form>
 
     <br>
 
-    <a href="{{ route('professores.index') }}">
-        Voltar
-    </a>
+    <a href="{{ route('professores.index') }}">Voltar</a>
 
 </body>
 </html>

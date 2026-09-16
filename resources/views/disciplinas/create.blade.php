@@ -9,26 +9,51 @@
 
     <h1>Cadastrar Disciplina</h1>
 
+    @if($errors->any())
+        <div>
+            <ul>
+                @foreach($errors->all() as $erro)
+                    <li>{{ $erro }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('disciplinas.store') }}" method="POST">
         @csrf
 
         <div>
             <label for="nome">Nome:</label>
-            <input type="text" name="nome" id="nome">
+            <input
+                type="text"
+                name="nome"
+                id="nome"
+                value="{{ old('nome') }}"
+            >
         </div>
 
         <br>
 
         <div>
             <label for="codigo">Código:</label>
-            <input type="text" name="codigo" id="codigo">
+            <input
+                type="text"
+                name="codigo"
+                id="codigo"
+                value="{{ old('codigo') }}"
+            >
         </div>
 
         <br>
 
         <div>
             <label for="carga_horaria">Carga Horária:</label>
-            <input type="number" name="carga_horaria" id="carga_horaria">
+            <input
+                type="number"
+                name="carga_horaria"
+                id="carga_horaria"
+                value="{{ old('carga_horaria') }}"
+            >
         </div>
 
         <br>
@@ -40,7 +65,10 @@
                 <option value="">Selecione um professor</option>
 
                 @foreach($professores as $professor)
-                    <option value="{{ $professor->id }}">
+                    <option
+                        value="{{ $professor->id }}"
+                        {{ old('professor_id') == $professor->id ? 'selected' : '' }}
+                    >
                         {{ $professor->nome }}
                     </option>
                 @endforeach
@@ -49,16 +77,12 @@
 
         <br>
 
-        <button type="submit">
-            Cadastrar
-        </button>
+        <button type="submit">Cadastrar</button>
     </form>
 
     <br>
 
-    <a href="{{ route('disciplinas.index') }}">
-        Voltar
-    </a>
+    <a href="{{ route('disciplinas.index') }}">Voltar</a>
 
 </body>
 </html>

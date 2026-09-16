@@ -9,6 +9,16 @@
 
     <h1>Editar Disciplina</h1>
 
+    @if($errors->any())
+        <div>
+            <ul>
+                @foreach($errors->all() as $erro)
+                    <li>{{ $erro }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('disciplinas.update', $disciplina) }}" method="POST">
         @csrf
         @method('PUT')
@@ -19,7 +29,7 @@
                 type="text"
                 name="nome"
                 id="nome"
-                value="{{ $disciplina->nome }}"
+                value="{{ old('nome', $disciplina->nome) }}"
             >
         </div>
 
@@ -31,7 +41,7 @@
                 type="text"
                 name="codigo"
                 id="codigo"
-                value="{{ $disciplina->codigo }}"
+                value="{{ old('codigo', $disciplina->codigo) }}"
             >
         </div>
 
@@ -43,7 +53,7 @@
                 type="number"
                 name="carga_horaria"
                 id="carga_horaria"
-                value="{{ $disciplina->carga_horaria }}"
+                value="{{ old('carga_horaria', $disciplina->carga_horaria) }}"
             >
         </div>
 
@@ -56,7 +66,7 @@
                 @foreach($professores as $professor)
                     <option
                         value="{{ $professor->id }}"
-                        {{ $disciplina->professor_id == $professor->id ? 'selected' : '' }}
+                        {{ old('professor_id', $disciplina->professor_id) == $professor->id ? 'selected' : '' }}
                     >
                         {{ $professor->nome }}
                     </option>
@@ -66,16 +76,12 @@
 
         <br>
 
-        <button type="submit">
-            Atualizar
-        </button>
+        <button type="submit">Atualizar</button>
     </form>
 
     <br>
 
-    <a href="{{ route('disciplinas.index') }}">
-        Voltar
-    </a>
+    <a href="{{ route('disciplinas.index') }}">Voltar</a>
 
 </body>
 </html>
